@@ -14,9 +14,8 @@ const knex = require('knex')({
 knex.insert(newPerson)
 .into('famous_people')
 .returning(['first_name', 'last_name'])
-.then((person) => {
-  console.log(`successfully inserted ${person.first_name} ${person.last_name}`);
-}).catch(errorHandler)
+.then(successHandler)
+.catch(errorHandler)
 .finally(knex.destroy);
 
 function errorHandler (err) {
@@ -25,4 +24,9 @@ function errorHandler (err) {
   }else {
     console.log('Oh! Some Error When Trying to insert')
   }
+}
+
+function successHandler (person) {
+  console.log(person);
+  console.log(`successfully inserted ${person[0].first_name} ${person[0].last_name}`);
 }
